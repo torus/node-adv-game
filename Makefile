@@ -1,3 +1,6 @@
+default:
+	@echo "run make in a Vagrant instance"
+
 .PHONY: test
 
 init:
