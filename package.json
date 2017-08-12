@@ -1,12 +1,16 @@
 {
   "dependencies": {
-    "koa": "^2.3.0"
+    "koa": "^2.3.0",
+    "koa-router": "^7.2.1",
+    "redis": "^2.8.0"
   },
   "scripts": {
+    "start": "nodemon .",
     "test": "mocha"
   },
   "devDependencies": {
-    "should": "^11.2.1",
-    "mocha": "^3.5.0"
+    "mocha": "^3.5.0",
+    "nodemon": "^1.11.0",
+    "should": "^11.2.1"
   }
 }
