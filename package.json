@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "koa": "^2.3.0",
+    "mocha": "^3.5.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
