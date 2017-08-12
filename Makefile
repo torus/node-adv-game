@@ -1,3 +1,5 @@
+.PHONY: test
+
 init:
 	npm install
 

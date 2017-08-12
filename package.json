@@ -1,9 +1,12 @@
 {
   "dependencies": {
-    "koa": "^2.3.0",
-    "mocha": "^3.5.0"
+    "koa": "^2.3.0"
   },
   "scripts": {
     "test": "mocha"
+  },
+  "devDependencies": {
+    "should": "^11.2.1",
+    "mocha": "^3.5.0"
   }
 }
