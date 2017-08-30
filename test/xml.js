@@ -2,7 +2,7 @@ var should = require('should')
 var libxml = require('libxmljs')
 var Element = require('libxmljs/lib/element')
 
-var E = require('../lib/libxmljs-lazy-builder')
+var E = require('libxmljs-lazy-builder')
 
 describe('libxmljs-lazy-builder', function() {
   it('should return a function', function() {
