@@ -4,4 +4,3 @@ node_modules/
 .vagrant/
 setenv.sh
 /npmlibs/
-package-lock.json
