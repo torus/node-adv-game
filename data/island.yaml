@@ -1,4 +1,16 @@
 ---
+- stages:
+    home:
+      name: 家
+    smith:
+      name: 鍛冶屋
+    mountain:
+      name: 山
+    village:
+      name: 海沿いの村
+    grampa:
+      name: おじいちゃんの家
+
 - scene:
     - name: 1-1-home
     - stage: home
