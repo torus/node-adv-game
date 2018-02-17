@@ -11,6 +11,14 @@
     grampa:
       name: おじいちゃんの家
 
+- characters:
+    mom:
+      label: おかあさん
+      image: http://3.bp.blogspot.com/-7QNkW1q8Q00/VZ-TiS4FtWI/AAAAAAAAvRQ/I6bIWDKq-lo/s800/obasan03_smile.png
+    smith:
+      label: おじさん
+      image: http://2.bp.blogspot.com/-O9HwTlFMdFI/UWgWd04Hq1I/AAAAAAAAQDw/zlpLB4khUjc/s1600/hige_busyo.png
+
 - scene:
     - name: 1-1-home
     - stage: home
