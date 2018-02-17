@@ -80,7 +80,7 @@
     - stage: village
     - intro:
         - desc: 山道を歩いて谷を抜けると、すぐに海沿いの村に着きました。
-        - link: 2-2-grampa
+    - link: 2-2-grampa
 
 - scene:
     - name: 2-2-grampa
