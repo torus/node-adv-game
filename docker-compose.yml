@@ -2,14 +2,43 @@ version: '2'
 services:
   web:
     build: .
-    ports:
-    - "3000:3000"
+    environment:
+      VIRTUAL_HOST: adv.torus.jp
+#    ports:
+#    - "3000:3000"
+    expose:
+    - "3000"
     volumes:
     - .:/code
     - logvolume01:/var/log
     links:
     - redis
+    depends_on:
+    - letsencrypt
+
   redis:
     image: redis
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+    - "443:443"
+    - "80:80"
+    volumes:
+    - ./proxy/certs:/etc/nginx/certs:ro
+    - ./proxy:/etc/nginx/vhost.d
+    - ./proxy:/usr/share/nginx/html
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    labels:
+    - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+    - ./proxy/certs:/etc/nginx/certs:rw
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+    - nginx-proxy
+
 volumes:
   logvolume01: {}
