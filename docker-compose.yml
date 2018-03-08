@@ -1,21 +1,5 @@
 version: '2'
 services:
-  web:
-    build: .
-    environment:
-      VIRTUAL_HOST: adv.torus.jp
-#    ports:
-#    - "3000:3000"
-    expose:
-    - "3000"
-    volumes:
-    - .:/code
-    - logvolume01:/var/log
-    links:
-    - redis
-    depends_on:
-    - letsencrypt
-
   redis:
     image: redis
 
@@ -39,6 +23,22 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
     - nginx-proxy
+
+  web:
+    build: .
+    environment:
+      VIRTUAL_HOST: adv.torus.jp
+      LETSENCRYPT_HOST: adv.torus.jp
+      LETSENCRYPT_EMAIL: toru-letsencrypt@torus.jp
+    expose:
+    - "3000"
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - redis
+    depends_on:
+    - letsencrypt
 
 volumes:
   logvolume01: {}
