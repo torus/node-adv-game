@@ -2,6 +2,8 @@ version: '2'
 services:
   redis:
     image: redis
+    volumes:
+    - ./redis:/data:rw
 
   nginx-proxy:
     image: jwilder/nginx-proxy
