@@ -1,4 +1,7 @@
 {
+  "description": "Adventure Game",
+  "repository": "https://github.com/torus/node-adv-game.git",
+  "license": "MIT",
   "dependencies": {
     "es6-promisify": "^5.0.0",
     "js-yaml": "^3.10.0",
@@ -11,7 +14,9 @@
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "randomstring": "^1.1.5",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "scripts": {
     "start": ". ./setenv.sh && nodemon --watch lib --watch index.js -L",
