@@ -16,7 +16,8 @@
     "randomstring": "^1.1.5",
     "redis": "^2.8.0",
     "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "semver": "^5.5.0"
   },
   "scripts": {
     "start": ". ./setenv.sh && nodemon --watch lib --watch index.js -L",
