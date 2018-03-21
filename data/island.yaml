@@ -1,28 +1,39 @@
 ---
 - package:
-    title: アイランド・ストーリー
-    desc: Adventure Bookshelves のサンプルシナリオです。定義されている機能が一通り使われています。オチはない。
-    version: 1.0.0
+    - title: アイランド・ストーリー
+    - desc: Adventure Bookshelves のサンプルシナリオです。定義されている機能が一通り使われています。オチはない。
+    - version: 1.0.2
+    - credit: 詠み人知らず
 
-- stages:
-    home:
-      name: 家
-    smith:
-      name: 鍛冶屋
-    mountain:
-      name: 山
-    village:
-      name: 海沿いの村
-    grampa:
-      name: おじいちゃんの家
+- stage:
+    - name: home
+    - label: 家
 
-- characters:
-    mom:
-      label: おかあさん
-      image: http://3.bp.blogspot.com/-7QNkW1q8Q00/VZ-TiS4FtWI/AAAAAAAAvRQ/I6bIWDKq-lo/s800/obasan03_smile.png
-    smith:
-      label: おじさん
-      image: http://2.bp.blogspot.com/-O9HwTlFMdFI/UWgWd04Hq1I/AAAAAAAAQDw/zlpLB4khUjc/s1600/hige_busyo.png
+- stage:
+    - name: smith
+    - label: 鍛冶屋
+
+- stage:
+    - name: mountain
+    - label: 山
+
+- stage:
+    - name: village
+    - label: 海沿いの村
+
+- stage:
+    - name: grampa
+    - label: おじいちゃんの家
+
+- character:
+    - name: mom
+    - label: おかあさん
+    - image: http://3.bp.blogspot.com/-7QNkW1q8Q00/VZ-TiS4FtWI/AAAAAAAAvRQ/I6bIWDKq-lo/s800/obasan03_smile.png
+
+- character:
+    - name: smith
+    - label: おじさん
+    - image: http://2.bp.blogspot.com/-O9HwTlFMdFI/UWgWd04Hq1I/AAAAAAAAQDw/zlpLB4khUjc/s1600/hige_busyo.png
 
 - scene:
     - name: 1-1-home
