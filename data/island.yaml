@@ -2,7 +2,7 @@
 - package:
     - title: アイランド・ストーリー
     - desc: Adventure Bookshelves のサンプルシナリオです。定義されている機能が一通り使われています。オチはない。
-    - version: 1.0.3
+    - version: 1.0.4
     - credit: 詠み人知らず
 
 - stage:
@@ -97,6 +97,7 @@
                - label: ヤマイチゴを摘む
                - after:
                    - flagUp: got-berry
+    - link: 1-3-1-river
 
 - scene:
     - name: 1-3-1-river
