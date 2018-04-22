@@ -8,3 +8,6 @@ init:
 
 test:
 	npm test
+
+schema:
+	pg_dump --no-owner --no-privileges --schema-only `whoami` > schema.sql
