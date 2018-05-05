@@ -43,13 +43,18 @@ CREATE TABLE public.accounts_facebook (
 
 
 --
--- Name: games; Type: TABLE; Schema: public; Owner: -
+-- Name: scenarios; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.games (
+CREATE TABLE public.scenarios (
     id character(12) NOT NULL,
     title character varying(256) NOT NULL,
-    description text
+    description text,
+    publisher character(12) NOT NULL,
+    version character varying(32) NOT NULL,
+    url text NOT NULL,
+    is_published boolean NOT NULL,
+    updated_at timestamp with time zone NOT NULL
 );
 
 
@@ -71,7 +76,7 @@ CREATE TABLE public.session_states (
 CREATE TABLE public.sessions (
     id character(12) NOT NULL,
     "user" character(12) NOT NULL,
-    game character(12) NOT NULL
+    scenario character(12) NOT NULL
 );
 
 
@@ -82,6 +87,16 @@ CREATE TABLE public.sessions (
 CREATE TABLE public.test (
     key character(10) NOT NULL,
     value integer NOT NULL
+);
+
+
+--
+-- Name: test_no_prim; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.test_no_prim (
+    name character varying(10),
+    value character varying(10)
 );
 
 
@@ -107,7 +122,7 @@ ALTER TABLE ONLY public.accounts_facebook
 -- Name: games_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.games
+ALTER TABLE ONLY public.scenarios
     ADD CONSTRAINT games_pkey PRIMARY KEY (id);
 
 
@@ -144,6 +159,14 @@ ALTER TABLE ONLY public.accounts_facebook
 
 
 --
+-- Name: games_publisher_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.scenarios
+    ADD CONSTRAINT games_publisher_fkey FOREIGN KEY (publisher) REFERENCES public.users(id);
+
+
+--
 -- Name: session_states_session_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -156,7 +179,7 @@ ALTER TABLE ONLY public.session_states
 --
 
 ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT sessions_game_fkey FOREIGN KEY (game) REFERENCES public.games(id);
+    ADD CONSTRAINT sessions_game_fkey FOREIGN KEY (scenario) REFERENCES public.scenarios(id);
 
 
 --
