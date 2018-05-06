@@ -1,0 +1,24 @@
+version: '2'
+services:
+  web:
+    build: .
+    expose:
+    - "3000"
+    ports:
+    - "3000:3000"
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - postgres
+
+  postgres:
+    image: postgres
+    volumes:
+    - ./postgres/data:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_PASSWORD: hanamogera
+      POSTGRES_USER: root
+
+volumes:
+  logvolume01: {}
