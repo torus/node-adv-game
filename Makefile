@@ -11,3 +11,6 @@ test:
 
 schema:
 	pg_dump --no-owner --no-privileges --schema-only `whoami` > schema.sql
+
+run-local:
+	docker-compose -f docker-compose-notls.yml up
