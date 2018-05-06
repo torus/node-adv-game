@@ -1,10 +1,5 @@
 version: '2'
 services:
-  redis:
-    image: redis
-    volumes:
-    - ./redis:/data:rw
-
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:
@@ -38,9 +33,17 @@ services:
     - .:/code
     - logvolume01:/var/log
     links:
-    - redis
+    - postgres
     depends_on:
     - letsencrypt
+
+  postgres:
+    image: postgres
+    volumes:
+    - ./postgres/data:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_PASSWORD: hanamogera
+      POSTGRES_USER: root
 
 volumes:
   logvolume01: {}
