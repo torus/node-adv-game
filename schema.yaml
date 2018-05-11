@@ -88,3 +88,13 @@
 - |
     ALTER TABLE ONLY public.sessions
         ADD CONSTRAINT sessions_user_fkey FOREIGN KEY ("user") REFERENCES public.users(id);
+
+- |
+    CREATE TABLE public.current_stages (
+        session character(12) NOT NULL,
+        stage character varying(64) NOT NULL
+    );
+
+- |
+    ALTER TABLE ONLY public.current_stages
+        ADD CONSTRAINT current_stages_session_fkey FOREIGN KEY (session) REFERENCES public.sessions(id);
