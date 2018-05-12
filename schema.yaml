@@ -98,3 +98,7 @@
 - |
     ALTER TABLE ONLY public.current_stages
         ADD CONSTRAINT current_stages_session_fkey FOREIGN KEY (session) REFERENCES public.sessions(id);
+
+- |
+    ALTER TABLE ONLY public.current_stages
+        ADD updated_at timestamp with time zone;
