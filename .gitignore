@@ -6,3 +6,4 @@ node_modules.*/
 setenv.sh
 /npmlibs/
 /proxy/
+/postgres/
