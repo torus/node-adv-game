@@ -11,6 +11,7 @@
     "koa-passport": "^3.0.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.1",
+    "koa-static": "^4.0.3",
     "libxmljs-lazy-builder": "^1.0.6",
     "merge": "^1.2.0",
     "passport": "^0.4.0",
