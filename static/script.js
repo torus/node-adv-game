@@ -11,7 +11,6 @@ $(document).ready(function() {
         e.on('click', function() {
           console.log('clicked', i)
           if (i != elems.length - 1) {
-            e.hide()
             $(elems[i + 1]).show()
             if (i == elems.length - 2) {
               options.show()
