@@ -10,8 +10,7 @@ $(document).ready(function() {
     options.hide()
     nextButton.show()
 
-    var i = 0
-    $('.adv-next-button-col button').on('click', function() {
+    var onClick = function() {
       console.log('clicked', i)
       if (i != elems.length - 1) {
         $(elems[i + 1]).show()
@@ -22,7 +21,15 @@ $(document).ready(function() {
           i ++
         }
       }
+    }
+
+    var i = 0
+    $('.adv-next-button-col button').on('click', onClick)
+    $('body').on('keydown', function(ev) {
+      if (ev.key == " ")
+        onClick()
     })
+
     $(elems[0]).show()
   }
 })
