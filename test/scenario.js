@@ -10,10 +10,12 @@ describe('scenario', () => {
           {label: 'Mountain'}
         ]}
       ]
-      const {packageInfo} = scenario().convertScenario(doc)
-      packageInfo.should.equal({
-        name: 'yama',
-        label: 'Mountain'
+      const {stageMap} = scenario().convertScenario(doc)
+      stageMap.should.deepEqual({
+        yama: {
+          name: 'yama',
+          label: 'Mountain'
+        }
       })
     })
   })
