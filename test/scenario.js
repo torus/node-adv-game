@@ -39,4 +39,31 @@ describe('sceneCommands', () => {
       called.should.be.equal(3)
     })
   })
+
+  describe('name', () => {
+    it('names the scene', async () => {
+      const cmd = sceneCommands.name('namae')
+      cmd.should.be.a.Function()
+
+      let scn = {}
+      const func = cmd(scn)
+      scn.name.should.equal('namae')
+      func.should.be.a.Function()
+
+      const prom = func(null, null)
+      prom.should.be.an.instanceOf(Promise)
+
+      await prom
+    })
+
+    it('takes functions and they are called', () => {
+      let called = 0
+      const f = s => {
+        called ++
+      }
+      const scn = sceneCommands.scene(f, f, f)
+      scn.should.have.property('display')
+      called.should.be.equal(3)
+    })
+  })
 })
