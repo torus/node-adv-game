@@ -167,48 +167,69 @@ describe('sceneCommands', () => {
     })
   })
 
-  describe('when', () => {
-    const makeDB = counterBox => ({
-      get: async function(session, key) {
-        counterBox[0] ++
-        return {
-          trueParam: true
-          , one: 1
-          , oneString: '1'
-          , falseParam: false
-          , zero: 0
-          , zeroString: '0'
-        }[key]
-      }
-    })
-
-    const makeRuntime = argBox => ({
-      addInstruction: function(...args) {
-        argBox.push(args)
-      }
-    })
-
-    const testWhen = async (param, expectedInstructions) => {
-      let counterBox = [0]
-      const db = makeDB(counterBox)
-
-      const commands = sceneCommands(db)
-      const cmd = commands.when(param, commands.desc('called!'))
-      const func = cmd(null)
-
-      const argsPassedToAddInstruction = []
-      const runtime = makeRuntime(argsPassedToAddInstruction)
-
-      counterBox[0].should.be.equal(0)
-      const prom = func(runtime, null)
-      prom.should.be.an.instanceOf(Promise)
-
-      const handler = await prom
-      should(handler).be.exactly(undefined)
-      counterBox[0].should.be.equal(1)
-      argsPassedToAddInstruction.should.be.deepEqual(expectedInstructions)
+  const makeDB = counterBox => ({
+    get: async function(session, key) {
+      counterBox[0] ++
+      return {
+        trueParam: true
+        , one: 1
+        , oneString: '1'
+        , falseParam: false
+        , zero: 0
+        , zeroString: '0'
+      }[key]
     }
+  })
 
+  const makeRuntime = argBox => ({
+    addInstruction: function(...args) {
+      argBox.push(args)
+    }
+  })
+
+  const testWhen = async (param, expectedInstructions) => {
+    let counterBox = [0]
+    const db = makeDB(counterBox)
+
+    const commands = sceneCommands(db)
+    const cmd = commands.when(param, commands.desc('called!'))
+    const func = cmd(null)
+
+    const argsPassedToAddInstruction = []
+    const runtime = makeRuntime(argsPassedToAddInstruction)
+
+    counterBox[0].should.be.equal(0)
+    const prom = func(runtime, null)
+    prom.should.be.an.instanceOf(Promise)
+
+    const handler = await prom
+    should(handler).be.exactly(undefined)
+    counterBox[0].should.be.equal(1)
+    argsPassedToAddInstruction.should.be.deepEqual(expectedInstructions)
+  }
+
+  const testWhenNot = async (param, expectedInstructions) => {
+    let counterBox = [0]
+    const db = makeDB(counterBox)
+
+    const commands = sceneCommands(db)
+    const cmd = commands.when(commands.not(param), commands.desc('called!'))
+    const func = cmd(null)
+
+    const argsPassedToAddInstruction = []
+    const runtime = makeRuntime(argsPassedToAddInstruction)
+
+    counterBox[0].should.be.equal(0)
+    const prom = func(runtime, null)
+    prom.should.be.an.instanceOf(Promise)
+
+    const handler = await prom
+    should(handler).be.exactly(undefined)
+    counterBox[0].should.be.equal(1)
+    argsPassedToAddInstruction.should.be.deepEqual(expectedInstructions)
+  }
+
+  describe('when', () => {
     it('executes the body when the condition is fulfilled', async () => {
       await testWhen('trueParam', [['desc', ['called!']]])
       await testWhen('one', [['desc', ['called!']]])
@@ -219,6 +240,50 @@ describe('sceneCommands', () => {
       await testWhen('falseParam', [])
       await testWhen('zero', [])
       await testWhen('zeroString', [])
+    })
+  })
+
+  describe('not', () => {
+    it('returns false if the value is true', async () => {
+      let counterBox = [0]
+      const db = makeDB(counterBox)
+      const commands = sceneCommands(db)
+      const cmd = commands.not('trueParam')
+      const func = cmd(null)
+      const prom = func(null, null)
+      const ret = await prom
+      ret.should.be.false()
+    })
+
+    it('returns true if the value is false', async () => {
+      let counterBox = [0]
+      const db = makeDB(counterBox)
+      const commands = sceneCommands(db)
+      const cmd = commands.not('falseParam')
+      const func = cmd(null)
+      const prom = func(null, null)
+      const ret = await prom
+      ret.should.be.true()
+    })
+
+    it('returns true if the param is not existing', async () => {
+      let counterBox = [0]
+      const db = makeDB(counterBox)
+      const commands = sceneCommands(db)
+      const cmd = commands.not('nonExisting')
+      const func = cmd(null)
+      const prom = func(null, null)
+      const ret = await prom
+      ret.should.be.true()
+    })
+
+    it('works nicely with when', async () => {
+      await testWhenNot('falseParam', [['desc', ['called!']]])
+      await testWhenNot('zero', [['desc', ['called!']]])
+      await testWhenNot('zeroString', [['desc', ['called!']]])
+      await testWhenNot('trueParam', [])
+      await testWhenNot('one', [])
+      await testWhenNot('oneString', [])
     })
   })
 })
