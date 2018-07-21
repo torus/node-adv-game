@@ -256,8 +256,7 @@ describe('sceneCommands', () => {
     })
 
     it('returns true if the value is false', async () => {
-      let counterBox = [0]
-      const db = makeDB(counterBox)
+      const db = makeDB([])
       const commands = sceneCommands(db)
       const cmd = commands.not('falseParam')
       const func = cmd(null)
@@ -267,8 +266,7 @@ describe('sceneCommands', () => {
     })
 
     it('returns true if the param is not existing', async () => {
-      let counterBox = [0]
-      const db = makeDB(counterBox)
+      const db = makeDB([])
       const commands = sceneCommands(db)
       const cmd = commands.not('nonExisting')
       const func = cmd(null)
