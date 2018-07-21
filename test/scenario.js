@@ -166,4 +166,66 @@ describe('sceneCommands', () => {
       should(handler()).be.exactly(undefined)
     })
   })
+
+  describe('when', () => {
+    it('executes the body when the condition is fulfilled', async () => {
+      let getCalled = 0
+      const db = {
+        get: async function(session, key) {
+          getCalled ++
+          key.should.be.equal('trueParam')
+          return '1'
+        }
+      }
+      const commands = sceneCommands(db)
+      const cmd = commands.when('trueParam', commands.desc('good'))
+      const func = cmd(null)
+
+      let done = false
+      const runtime = {
+        addInstruction: function(...args) {
+          args.should.be.deepEqual(['desc', ['good']])
+          done = true
+        }
+      }
+
+      getCalled.should.be.equal(0)
+      const prom = func(runtime, null)
+      prom.should.be.an.instanceOf(Promise)
+
+      const handler = await prom
+      should(handler).be.exactly(undefined)
+      getCalled.should.be.equal(1)
+    })
+
+    it('doesn\'t execute the body when the condition is not fulfilled', async () => {
+      let getCalled = 0
+      const db = {
+        get: async function(session, key) {
+          getCalled ++
+          key.should.be.equal('falseParam')
+          return '0'
+        }
+      }
+      const commands = sceneCommands(db)
+      const cmd = commands.when('falseParam', commands.desc('not so good'))
+      const func = cmd(null)
+
+      let done = false
+      const runtime = {
+        addInstruction: function(...args) {
+          done = true
+        }
+      }
+
+      getCalled.should.be.equal(0)
+      const prom = func(runtime, null)
+      prom.should.be.an.instanceOf(Promise)
+
+      const handler = await prom
+      should(handler).be.exactly(undefined)
+      done.should.not.be.ok()
+      getCalled.should.be.equal(1)
+    })
+  })
 })
