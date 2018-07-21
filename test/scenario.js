@@ -168,64 +168,57 @@ describe('sceneCommands', () => {
   })
 
   describe('when', () => {
-    it('executes the body when the condition is fulfilled', async () => {
-      let getCalled = 0
-      const db = {
-        get: async function(session, key) {
-          getCalled ++
-          key.should.be.equal('trueParam')
-          return '1'
-        }
+    const makeDB = counterBox => ({
+      get: async function(session, key) {
+        counterBox[0] ++
+        return {
+          trueParam: true
+          , one: 1
+          , oneString: '1'
+          , falseParam: false
+          , zero: 0
+          , zeroString: '0'
+        }[key]
       }
+    })
+
+    const makeRuntime = argBox => ({
+      addInstruction: function(...args) {
+        argBox.push(args)
+      }
+    })
+
+    const testWhen = async (param, expectedInstructions) => {
+      let counterBox = [0]
+      const db = makeDB(counterBox)
+
       const commands = sceneCommands(db)
-      const cmd = commands.when('trueParam', commands.desc('good'))
+      const cmd = commands.when(param, commands.desc('called!'))
       const func = cmd(null)
 
-      let done = false
-      const runtime = {
-        addInstruction: function(...args) {
-          args.should.be.deepEqual(['desc', ['good']])
-          done = true
-        }
-      }
+      const argsPassedToAddInstruction = []
+      const runtime = makeRuntime(argsPassedToAddInstruction)
 
-      getCalled.should.be.equal(0)
+      counterBox[0].should.be.equal(0)
       const prom = func(runtime, null)
       prom.should.be.an.instanceOf(Promise)
 
       const handler = await prom
       should(handler).be.exactly(undefined)
-      getCalled.should.be.equal(1)
+      counterBox[0].should.be.equal(1)
+      argsPassedToAddInstruction.should.be.deepEqual(expectedInstructions)
+    }
+
+    it('executes the body when the condition is fulfilled', async () => {
+      await testWhen('trueParam', [['desc', ['called!']]])
+      await testWhen('one', [['desc', ['called!']]])
+      await testWhen('oneString', [['desc', ['called!']]])
     })
 
     it('doesn\'t execute the body when the condition is not fulfilled', async () => {
-      let getCalled = 0
-      const db = {
-        get: async function(session, key) {
-          getCalled ++
-          key.should.be.equal('falseParam')
-          return '0'
-        }
-      }
-      const commands = sceneCommands(db)
-      const cmd = commands.when('falseParam', commands.desc('not so good'))
-      const func = cmd(null)
-
-      let done = false
-      const runtime = {
-        addInstruction: function(...args) {
-          done = true
-        }
-      }
-
-      getCalled.should.be.equal(0)
-      const prom = func(runtime, null)
-      prom.should.be.an.instanceOf(Promise)
-
-      const handler = await prom
-      should(handler).be.exactly(undefined)
-      done.should.not.be.ok()
-      getCalled.should.be.equal(1)
+      await testWhen('falseParam', [])
+      await testWhen('zero', [])
+      await testWhen('zeroString', [])
     })
   })
 })
