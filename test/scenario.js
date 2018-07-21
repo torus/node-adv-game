@@ -144,11 +144,8 @@ describe('sceneCommands', () => {
       commands.scene(commands.stage('dest'), commands.name('anotherscene'))
 
       const cmd = commands.link('anotherscene')
-      cmd.should.be.a.Function()
-
-      let scn = {linkedSceneSet: {}}
-      const func = cmd(scn)
-      func.should.be.a.Function()
+      let scene = {linkedSceneSet: {}}
+      const func = cmd(scene)
 
       let done = false
       const runtime = {
@@ -166,7 +163,6 @@ describe('sceneCommands', () => {
       setCalled.should.be.equal(1)
 
       done.should.be.true()
-      handler.should.be.a.Function()
       should(handler()).be.exactly(undefined)
     })
   })
