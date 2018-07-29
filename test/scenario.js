@@ -284,4 +284,36 @@ describe('sceneCommands', () => {
       await testWhenNot('oneString', [])
     })
   })
+
+  describe('action', () => {
+    it('creates an action', async () => {
+      const commands = sceneCommands(null)
+      let called = false
+      const cmd = commands.action(scn => new Promise((res, rej) => {
+        called = true
+        res()
+      }))
+
+      const scene = {
+        name: "scene-name"
+      }
+      const func = cmd(scene)
+      await func
+
+      called.should.be.ok()
+    })
+  })
+
+  describe('label', () => {
+    it('specifies label on an action', async () => {
+      const commands = sceneCommands(null)
+      let called = false
+      const cmd = commands.label('action-label')
+      const prom = await cmd(null)(null, null)
+
+      const action = {}
+      await prom(action)
+      action.should.have.property('label').which.equal('action-label')
+    })
+  })
 })
