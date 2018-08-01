@@ -316,4 +316,29 @@ describe('sceneCommands', () => {
       action.should.have.property('label').which.equal('action-label')
     })
   })
+
+  describe('after', () => {
+    it('specifies thing to be done after the action is executed', async () => {
+      const actionHandlers = {}
+      const commands = sceneCommands(null, actionHandlers)
+      let result = 0
+      const actionFunc = (n) => scene => async (runtime, session) => async action => {
+        result += n
+      }
+      const cmd = commands.after(actionFunc(1), actionFunc(10), actionFunc(100))
+      const scene = {
+        stage: 'stage obj'
+      }
+      const prom = await cmd(scene)(null, null)
+      const action = {}
+      await prom(action)
+      result.should.equal(0)
+      const handles = Object.keys(actionHandlers)
+      handles.should.have.length(1)
+      const hndl = actionHandlers[handles[0]]
+      hndl.should.be.a.Function()
+      await hndl(null)
+      result.should.equal(111)
+    })
+  })
 })
