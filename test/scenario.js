@@ -324,6 +324,7 @@ describe('sceneCommands', () => {
       let result = 0
       const actionFunc = (n) => scene => async (runtime, session) => async action => {
         result += n
+        scene.should.have.property('stage').which.equal('stage obj')
       }
       const cmd = commands.after(actionFunc(1), actionFunc(10), actionFunc(100))
       const scene = {
