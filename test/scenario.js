@@ -393,5 +393,16 @@ describe('sceneCommands', () => {
       const prom = func(null, null)
       prom.should.be.rejectedWith('condition "falseFlag" not satisfied! Value: 0')
     })
+
+    it('doesn\'t throw if the value of a param is true', async () => {
+      const tbl = {falseFlag: 0, trueFlag: 1}
+      const db = makeFlagDB(tbl)
+      const actionHandlers = {}
+      const commands = sceneCommands(db, actionHandlers)
+      const cmd = commands.condition('trueFlag')
+      const func = cmd(null)
+      const prom = func(null, null)
+      prom.should.be.fulfilled()
+    })
   })
 })
