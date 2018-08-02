@@ -342,4 +342,27 @@ describe('sceneCommands', () => {
       result.should.equal(111)
     })
   })
+
+  const makeFlagDB = tbl => ({
+    set: (session, key, val) => {
+      tbl[key] = val
+    },
+    get: (session, key) => tbl[key]
+  })
+
+  describe('flagUp', () => {
+    it('sets flag to the TRUE value', async () => {
+      const tbl = {}
+      const db = makeFlagDB(tbl)
+      const actionHandlers = {}
+      const commands = sceneCommands(db, actionHandlers)
+      const cmd = commands.flagUp('trueFlag')
+      const func = cmd(null)
+      const prom = await func(null, null)
+      const action = {}
+      await prom(action)
+
+      tbl.should.deepEqual({trueFlag: 1})
+    })
+  })
 })
