@@ -365,4 +365,20 @@ describe('sceneCommands', () => {
       tbl.should.deepEqual({trueFlag: 1})
     })
   })
+
+  describe('flagDown', () => {
+    it('sets flag to the FALSE value', async () => {
+      const tbl = {falseFlag: 1, trueFlag: 1}
+      const db = makeFlagDB(tbl)
+      const actionHandlers = {}
+      const commands = sceneCommands(db, actionHandlers)
+      const cmd = commands.flagDown('falseFlag')
+      const func = cmd(null)
+      const prom = await func(null, null)
+      const action = {}
+      await prom(action)
+
+      tbl.should.deepEqual({trueFlag: 1, falseFlag: 0})
+    })
+  })
 })
