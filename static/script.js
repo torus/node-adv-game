@@ -5,7 +5,7 @@ $(document).ready(function() {
   var elems = $('.adv-one-by-one')
   nextButton.hide()
 
-    var options = $('.adv-options')
+  var options = $('.adv-options')
 
   if (elems.length > 1) {
     elems.hide()
@@ -13,30 +13,32 @@ $(document).ready(function() {
     nextButton.show()
   }
 
-    var i = 0
-    onClick = function() {
-      elems = $('.adv-one-by-one')
-      console.log('clicked', i, elems.length)
-      if (i != elems.length - 1) {
-        $(elems[i + 1]).show()
-        if (i == elems.length - 2) {
-          options.show()
-          nextButton.hide()
-        } else {
-          options.hide()
-          nextButton.show()
-          i ++
-        }
+  var i = 0
+  onClick = function() {
+    elems = $('.adv-one-by-one')
+    console.log('onClick before', i, '/', elems.length)
+    console.log('clicked', i, elems.length)
+    if (i != elems.length - 1) {
+      $(elems[i + 1]).show()
+      if (i == elems.length - 2) {
+        options.show()
+        nextButton.hide()
+      } else {
+        options.hide()
+        nextButton.show()
+        i ++
       }
-
-    $('.adv-next-button-col button').on('click', onClick)
-    $('body').on('keydown', function(ev) {
-      if (ev.key == " ")
-        onClick()
-    })
-
-    $(elems[0]).show()
+    }
+    console.log('onClick after', i)
   }
+
+  $('.adv-next-button-col button').on('click', onClick)
+  $('body').on('keydown', function(ev) {
+    if (ev.key == " ")
+      onClick()
+  })
+
+  $(elems[0]).show()
 })
 
 function doAction(actionId) {
