@@ -43,6 +43,8 @@ $(document).ready(function() {
 
 function doAction(actionId) {
   console.log('doAction', actionId)
+  var label = $('#action-button-' + actionId).text()
+  console.log('label', label)
   var nextButton = $('.adv-next-button-row')
   var options = $('.adv-options')
 
@@ -52,12 +54,15 @@ function doAction(actionId) {
   $.post('/action/' + actionId
          , null
          , function(data) {
-           console.log('done')
-           console.log(data)
+           var bodyElem = $('#display-body')
+           if (data.disp.length > 0) {
+             bodyElem.append($('<hr/>'))
+             bodyElem.append($('<div>').text(label))
+           }
            data.disp.forEach(function(html) {
              var elem = $(html)
              elem.hide()
-             $('#display-body').append(elem)
+             bodyElem.append(elem)
            })
 
            onClick()
