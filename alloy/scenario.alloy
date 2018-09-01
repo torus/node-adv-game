@@ -1,0 +1,51 @@
+sig Stage {}
+sig Display {}
+sig Flags {
+	flags: some Flag
+}
+
+sig State {
+	scene: Scene,
+	flags: Flags
+}
+
+sig Scene {
+	stage: Stage,
+	display: Display,
+	actions: Condition -> some Action,
+	links: Condition -> some Scene
+}
+
+sig Flag {}
+
+abstract sig FlagDiff {
+	upFlags: Flags,
+	downFlags: Flags
+} {
+	no n: Flag | n in upFlags.flags and n in downFlags.flags
+}
+
+sig Action extends FlagDiff {}
+sig Condition extends FlagDiff {}
+
+pred act (s, s': State, a: Action) {
+	a in (s.scene.actions)[s.flags]
+	s'.flags.flags = s.flags.flags + a.upFlags.flags - a.downFlags.flags
+}
+
+pred goScene (s, s': State, sce, sce': Scene) {
+	sce != sce'
+	s.scene = sce
+	s'.scene = sce'
+}
+
+
+pred showAct (s, s': State, a: Action) {
+	#a.upFlags > 0
+	#(a.upFlags.flags - s.flags.flags) > 0
+	#(s.flags.flags - a.downFlags.flags) > 0
+	act[s, s', a]
+}
+
+run goScene
+
