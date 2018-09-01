@@ -59,9 +59,9 @@ function doAction(actionId) {
              elem.hide()
              $('#display-body').append(elem)
            })
-           if (data.disp.length > 0) {
-             onClick()
-           }
+
+           onClick()
+
            data.moves.forEach(function(elem) {$('#moveList').append(elem)})
            data.actions.forEach(function(elem) {$('#actionList').append(elem)})
          }
